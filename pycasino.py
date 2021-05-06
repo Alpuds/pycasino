@@ -13,13 +13,13 @@ def title():
     print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
     print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
 
-gold = 1_645_390
+gold = 1_665_390
 
 def list_of_commands():
     with open("help.txt", "r") as f:
        return f.read()
 
-def abbrv_num(num):
+def abbrv(num):
     """Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
        This goes upto trillion.
     """
@@ -29,7 +29,7 @@ def abbrv_num(num):
             shorten_num = str(round((num / abbrv_value), 2)).strip(".0")
             for key, value in abbrv.items():
                 if value == abbrv_value:
-                    return shorten_num + key  
+                    return shorten_num + key
 
 while True:
     try:
@@ -45,7 +45,7 @@ while True:
 
     except ValueError:
         if command == "gold":
-            print(f"You have {gold:,} ({abbrv_num(gold)}) gold.")
+            print(f"You have {gold:,} ({abbrv(gold)}) gold.")
 
         elif command == "q" or command == "Q":
             break
