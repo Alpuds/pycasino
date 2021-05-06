@@ -13,7 +13,7 @@ def title():
     print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
     print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
 
-gold = 2593
+gold = 1_645_390
 
 def list_of_commands():
     with open("help.txt", "r") as f:
@@ -23,22 +23,15 @@ def abbrv_num(amount):
     """Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
        This goes upto trillion.
     """
-
-    if amount > 999_999_999_999:
-        abbrv = round(amount / 1_000_000_000_000, 2)
-        return str(abbrv) + "T"
-
-    elif amount > 999_999_999:
-        abbrv = round(amount / 1_000_000_000, 2)
-        return str(abbrv) + "B"
-    
-    elif amount > 999_999:
-        abbrv = round(amount / 1_000_000, 2)
-        return str(abbrv) + "M"
-
-    else:
-        abbrv = round(amount / 1000, 2)
-        return str(abbrv) + "K"
+def abbrv_num(num):
+    abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1_000}
+    for abbrv_value in abbrv.values():
+        if num / abbrv_value >= 1:
+            shorten_num = str(round((num / abbrv_value), 2)).strip(".0")
+        
+            for key, value in abbrv.items():
+                if value == abbrv_value:
+                    return shorten_num + key  
 
 while True:
     try:
