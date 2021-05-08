@@ -48,8 +48,7 @@ while True:
             bj.blackjack(bet)
             continue
         else:
-            print("Invalid command.")
-            print(list_of_commands())
+            print('Invalid command. Type "h" or "help" for a list of commands')
             continue
 
     except ValueError:
@@ -60,6 +59,9 @@ while True:
         elif command == "q" or command == "Q":
             break
 
-        else:
+        elif command == "h" or command == "help":
             print(list_of_commands())
+
+        else:
+            print('Invalid command. Type "h" or "help" for a list of commands')
             continue
