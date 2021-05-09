@@ -22,11 +22,28 @@ def list_of_commands():
     with open("help.txt", "r") as f:
        return f.read()
 
-def read_data(field):
+def print_all_stats(game):
+    """ Prints out all of the stats for the chosen game """
+    print(f"Stats for {game}:")
+    print(f"Wins: {read_data('game', game, 'wins')}")
+    print(f"Losses: {read_data('game', game, 'losses')}")
+    print(f"Total gold gained: {read_data('game', game, 'total gold gained')}")
+    print(f"Total gold lost: {read_data('game', game, 'total gold lost')}")
+    print(f"Gold net value: {read_data('game', game, 'gold net value')}")
+
+def read_data(field, game=0, stats=0 ):
+    """ Reads the data.csv file from the current user's folder.
+        It can be used to get the number of gold or statistic of a game
+    """
     with open(data_path, "r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
-        for line in csv_reader:
-            return line[field]
+        if game == 0:
+            for line in csv_reader:
+                return int(line[field])
+        else:
+            for line in csv_reader:
+                if line[field] == game:
+                    return int(line[stats])
 
 def abbrv(num):
     """Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
@@ -43,17 +60,24 @@ def abbrv(num):
 while True:
     try:
         command = input("Command: ")
-        game, bet = command.split()
-        if game == "bj":
+        command, bet = command.split()
+        if command == "bj":
             bj.blackjack(bet)
             continue
+        elif command == "stats":
+            if bet == "bj":
+                print_all_stats("blackjack")
+            elif bet == "slots":
+                print_all_stats("slots")
+            elif bet == "roulette":
+                print_all_stats("roulette")
         else:
             print('Invalid command. Type "h" or "help" for a list of commands')
             continue
 
     except ValueError:
         if command == "gold":
-            gold = int(read_data("gold"))
+            gold = read_data("gold")
             print(f"You have {gold:,} ({abbrv(gold)}) gold." if gold > 1_000 else f"You have {gold} gold.")
 
         elif command == "q" or command == "Q":
