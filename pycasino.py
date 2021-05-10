@@ -7,23 +7,25 @@ import csv
 
 from games import blackjack as bj
 
-def title():
-    print("██████╗ ██╗   ██╗ ██████╗ █████╗ ███████╗██╗███╗   ██╗ ██████╗".center(98, "-"))
-    print("██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗██╔════╝██║████╗  ██║██╔═══██╗".center(100, "-"))
-    print("██████╔╝ ╚████╔╝ ██║     ███████║███████╗██║██╔██╗ ██║██║   ██║".center(100, "-"))
-    print("██╔═══╝   ╚██╔╝  ██║     ██╔══██║╚════██║██║██║╚██╗██║██║   ██║".center(100, "-"))
-    print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
-    print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
+# def title():
+#     print("██████╗ ██╗   ██╗ ██████╗ █████╗ ███████╗██╗███╗   ██╗ ██████╗".center(98, "-"))
+#     print("██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗██╔════╝██║████╗  ██║██╔═══██╗".center(100, "-"))
+#     print("██████╔╝ ╚████╔╝ ██║     ███████║███████╗██║██╔██╗ ██║██║   ██║".center(100, "-"))
+#     print("██╔═══╝   ╚██╔╝  ██║     ██╔══██║╚════██║██║██║╚██╗██║██║   ██║".center(100, "-"))
+#     print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
+#     print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
 
 username = "Alpud"
 data_path = "./users/" + username + "/data.csv"
 
+
 def list_of_commands():
     with open("help.txt", "r") as f:
-       return f.read()
+        return f.read()
+
 
 def print_all_stats(game):
-    """ Prints out all of the stats for the chosen game """
+    """Prints out all of the stats for the chosen game"""
     print(f"Stats for {game}:")
     print(f"Wins: {read_data('game', game, 'wins')}")
     print(f"Losses: {read_data('game', game, 'losses')}")
@@ -31,9 +33,11 @@ def print_all_stats(game):
     print(f"Total gold lost: {read_data('game', game, 'total gold lost')}")
     print(f"Gold net value: {read_data('game', game, 'gold net value')}")
 
-def read_data(field, game=0, stats=0 ):
-    """ Reads the data.csv file from the current user's folder.
-        It can be used to get the number of gold or statistic of a game
+
+def read_data(field, game=0, stats=0):
+    """
+    Reads the data.csv file from the current user's folder.
+    It can be used to get the number of gold or statistic of a game
     """
     with open(data_path, "r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
@@ -45,9 +49,11 @@ def read_data(field, game=0, stats=0 ):
                 if line[field] == game:
                     return int(line[stats])
 
+
 def abbrv(num):
-    """Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
-       This goes upto trillion.
+    """
+    Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
+    This goes upto trillion.
     """
     abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
     for abbrv_value in abbrv.values():
@@ -56,6 +62,7 @@ def abbrv(num):
             for key, value in abbrv.items():
                 if value == abbrv_value:
                     return shorten_num + key
+
 
 while True:
     try:
@@ -72,7 +79,9 @@ while True:
             elif bet == "roulette":
                 print_all_stats("roulette")
             else:
-                print(f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands')
+                print(
+                    f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
+                )
         else:
             print('Invalid command. Type "h" or "help" for a list of commands')
             continue
@@ -80,9 +89,10 @@ while True:
     except ValueError:
         if command == "gold":
             gold = read_data("gold")
-            print(f"You have {gold:,} ({abbrv(gold)}) gold."
-            if gold > 1000 
-            else f"You have {gold} gold."
+            print(
+                f"You have {gold:,} ({abbrv(gold)}) gold."
+                if gold > 1000
+                else f"You have {gold} gold."
             )
 
         elif command == "q" or command == "Q":
