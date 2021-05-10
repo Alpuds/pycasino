@@ -49,7 +49,7 @@ def abbrv(num):
     """Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1.5K = 1,500)
        This goes upto trillion.
     """
-    abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1_000}
+    abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
     for abbrv_value in abbrv.values():
         if num / abbrv_value >= 1:
             shorten_num = str(round((num / abbrv_value), 2)).strip(".0")
@@ -71,6 +71,8 @@ while True:
                 print_all_stats("slots")
             elif bet == "roulette":
                 print_all_stats("roulette")
+            else:
+                print(f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands')
         else:
             print('Invalid command. Type "h" or "help" for a list of commands')
             continue
@@ -78,7 +80,10 @@ while True:
     except ValueError:
         if command == "gold":
             gold = read_data("gold")
-            print(f"You have {gold:,} ({abbrv(gold)}) gold." if gold > 1_000 else f"You have {gold} gold.")
+            print(f"You have {gold:,} ({abbrv(gold)}) gold."
+            if gold > 1000 
+            else f"You have {gold} gold."
+            )
 
         elif command == "q" or command == "Q":
             break
