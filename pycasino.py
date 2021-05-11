@@ -15,10 +15,6 @@ from games import blackjack as bj
 #     print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
 #     print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
 
-username = "Alpud"
-data_path = "./users/" + username + "/data.csv"
-
-
 def list_of_commands():
     with open("help.txt", "r") as f:
         return f.read()
@@ -36,10 +32,9 @@ def print_all_stats(game):
 
 def read_data(field, game=0, stats=0):
     """
-    Reads the data.csv file from the current user's folder.
-    It can be used to get the number of gold or statistic of a game
+    Reads the data.csv file to get the number of gold or statistic of a game
     """
-    with open(data_path, "r") as csv_file:
+    with open("data.csv", "r") as csv_file:
         csv_reader = csv.DictReader(csv_file)
         if game == 0:
             for line in csv_reader:
