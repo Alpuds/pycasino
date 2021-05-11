@@ -15,6 +15,7 @@ from games import blackjack as bj
 #     print("██║        ██║   ╚██████╗██║  ██║███████║██║██║ ╚████║╚██████╔╝".center(100, "-"))
 #     print("╚═╝        ╚═╝    ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝".center(98, "-"))
 
+
 def list_of_commands():
     with open("help.txt", "r") as f:
         return f.read()
@@ -60,11 +61,14 @@ def abbrv(num):
 
 
 def expand(num):
-    """ Expands the abbreviation of a number (e.g. 1.5K -> 1,500) """
+    """Expands the abbreviation of a number (e.g. 1.5K -> 1,500)"""
     abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
-    # This will take the abbreviation letter and ensure it is capitalised to match the key
-    abbrv_letter = num[len(num) - 1].upper()
-    return num * abbrv[abbrv_letter]
+    # Stores the letter that is at the end of the number to match the key and be the multiplyer
+    abbrv_letter = num[len(num) - 1]
+    num = float(num.strip(abbrv_letter))
+    # This will ensure the letter is capitalised to match the key
+    abbrv_letter = abbrv_letter.upper()
+    return int(num * abbrv[abbrv_letter])
 
 
 while True:
