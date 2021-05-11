@@ -59,6 +59,14 @@ def abbrv(num):
                     return shorten_num + key
 
 
+def expand(num):
+    """ Expands the abbreviation of a number (e.g. 1.5K -> 1,500) """
+    abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
+    # This will take the abbreviation letter and ensure it is capitalised to match the key
+    abbrv_letter = num[len(num) - 1].upper()
+    return num * abbrv[abbrv_letter]
+
+
 while True:
     try:
         command = input("Command: ")
