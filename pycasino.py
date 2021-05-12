@@ -89,6 +89,10 @@ def check_abbrv(num):
         else:
             return "invalid"
 
+
+gold = read_data("gold")
+
+
 while True:
     try:
         command = input("Command: ")
@@ -102,6 +106,7 @@ while True:
                 print(
                     f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
                 )
+        # Checks the bet and expands it when needed.
         elif command in games:
             if check_abbrv(bet) == True:
                 bet = expand(bet)
@@ -110,6 +115,10 @@ while True:
                 continue
             else:
                 bet = int(bet)
+
+            if bet > gold:
+                print(f"You don't have enough gold. [{gold:,}] ({abbrv(gold)})")
+                continue
             games[command](bet)
             continue
         else:
@@ -118,7 +127,6 @@ while True:
 
     except ValueError:
         if command == "gold":
-            gold = read_data("gold")
             print(
                 f"You have {gold:,} ({abbrv(gold)}) gold."
                 if gold > 1000
