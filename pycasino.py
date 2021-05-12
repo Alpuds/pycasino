@@ -5,7 +5,12 @@ This consists of times played, total win/loss and net gain of gold.
 """
 import csv
 
-from games import blackjack as bj
+from games.blackjack import blackjack
+from games.craps import craps
+from games.roulette import roulette
+from games.slots import slots
+
+games = {"bj": blackjack, "slots": slots, "roulette": roulette, "craps": craps}
 
 # def title():
 #     print("██████╗ ██╗   ██╗ ██████╗ █████╗ ███████╗██╗███╗   ██╗ ██████╗".center(98, "-"))
@@ -23,12 +28,13 @@ def list_of_commands():
 
 def print_all_stats(game):
     """Prints out all of the stats for the chosen game"""
+    get_value = lambda field: read_data('game', game, field)
     print(f"Stats for {game}:")
-    print(f"Wins: {read_data('game', game, 'wins')}")
-    print(f"Losses: {read_data('game', game, 'losses')}")
-    print(f"Total gold gained: {read_data('game', game, 'total gold gained')}")
-    print(f"Total gold lost: {read_data('game', game, 'total gold lost')}")
-    print(f"Gold net value: {read_data('game', game, 'gold net value')}")
+    print(f"Wins: {get_value('wins'):,}")
+    print(f"Losses: {get_value('losses'):,}")
+    print(f"Total gold gained: {get_value('total gold gained'):,}")
+    print(f"Total gold lost: {get_value('total gold lost'):,}")
+    print(f"Gold net value: {get_value('gold net value'):,}")
 
 
 def read_data(field, game=0, stats=0):
@@ -71,24 +77,41 @@ def expand(num):
     return int(num * abbrv[abbrv_letter])
 
 
+def check_abbrv(num):
+    try:
+        int(num)
+        return False
+    except ValueError:
+        letter = num[len(num) - 1].upper()
+        abbrv = ("T", "B", "M", "K")
+        if letter in abbrv:
+            return True
+        else:
+            return "invalid"
+
 while True:
     try:
         command = input("Command: ")
         command, bet = command.split()
-        if command == "bj":
-            bj.blackjack(bet)
-            continue
-        elif command == "stats":
-            if bet == "bj":
-                print_all_stats("blackjack")
-            elif bet == "slots":
-                print_all_stats("slots")
-            elif bet == "roulette":
-                print_all_stats("roulette")
+        if command == "stats":
+            if bet in games:
+                if bet == "bj":
+                    bet = "blackjack"
+                print_all_stats(bet)
             else:
                 print(
                     f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
                 )
+        elif command in games:
+            if check_abbrv(bet) == True:
+                bet = expand(bet)
+            elif check_abbrv(bet) == "invalid":
+                print("Pycasino only handles numbers that are under one quadrillion")
+                continue
+            else:
+                bet = int(bet)
+            games[command](bet)
+            continue
         else:
             print('Invalid command. Type "h" or "help" for a list of commands')
             continue
@@ -107,6 +130,12 @@ while True:
 
         elif command == "h" or command == "help":
             print(list_of_commands())
+
+        elif command in games:
+             print("You need to provide a bet.")
+
+        elif command == "stats":
+            print("You need to provide a game to get stats.")
 
         else:
             print('Invalid command. Type "h" or "help" for a list of commands')
