@@ -1,3 +1,4 @@
+#!/bin/bash
 read -r -d '' help << eot
 Running this without an argument will move all files that starts with "test_" up one directory
 to easily test the code without modifying the sys.path or the like. Type "end" as an argument
