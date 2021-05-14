@@ -118,78 +118,78 @@ def check_abbrv(num):
         else:
             return "invalid"
 
+if '__name__' == '__main__':
+    gold = read_data("gold")
 
-gold = read_data("gold")
 
-
-while True:
-    try:
-        command = input("Command: ")
-        command, bet = command.split()
-        #---Stats----#
-        if command == "stats":
-            if bet in games:
-                if bet == "bj":
-                    bet = "blackjack"
-                print_all_stats(bet)
+    while True:
+        try:
+            command = input("Command: ")
+            command, bet = command.split()
+            #---Stats----#
+            if command == "stats":
+                if bet in games:
+                    if bet == "bj":
+                        bet = "blackjack"
+                    print_all_stats(bet)
+                else:
+                    print(
+                        f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
+                    )
+            #------------#
+            elif command in games:
+                #---Checks the integrity of the bet and expands it when needed---#
+                if check_abbrv(bet) == True:
+                    bet = expand(bet)
+                elif check_abbrv(bet) == "invalid":
+                    print("Pycasino only handles numbers that are under one quadrillion")
+                    continue
+                else:
+                    bet = int(bet)
+                #----------------------------------------------------------------#
+                if bet > gold:
+                    print(f"You don't have enough gold. [{gold:,}] ({abbrv(gold)})")
+                    continue
+                #---Game---#
+                games[command](bet)
+                continue
+                #----------#
+            #--Add gold when allowed---#
+            elif command == 'add' and bet == 'gold':
+                if gold == 0:
+                    write_data('gold', 100)
+                    print('Added 100 gold.')
+                else:
+                    print('You can only add gold if you ran out of it.')
+            #--------------------------#
             else:
+                print('Invalid command. Type "h" or "help" for a list of commands')
+                continue
+
+        except ValueError:
+            if command == "gold":
                 print(
-                    f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
+                    f"You have {gold:,} ({abbrv(gold)}) gold."
+                    if gold > 1000
+                    else f"You have {gold} gold."
                 )
-        #------------#
-        elif command in games:
-            #---Checks the integrity of the bet and expands it when needed---#
-            if check_abbrv(bet) == True:
-                bet = expand(bet)
-            elif check_abbrv(bet) == "invalid":
-                print("Pycasino only handles numbers that are under one quadrillion")
-                continue
+
+            elif command == "q" or command == "Q":
+                break
+
+            elif command == "h" or command == "help":
+                print(list_of_commands())
+
+            #---Zero argument error handling---#
+            elif command in games:
+                 print("You need to provide a bet.")
+
+            elif command == "stats":
+                print("You need to provide a game to get stats.")
+
+            elif command == "add":
+                print('Type "add gold" to receive 100 gold if and only if you ran out of gold.')
+            #----------------------------------#
             else:
-                bet = int(bet)
-            #----------------------------------------------------------------#
-            if bet > gold:
-                print(f"You don't have enough gold. [{gold:,}] ({abbrv(gold)})")
+                print('Invalid command. Type "h" or "help" for a list of commands')
                 continue
-            #---Game---#
-            games[command](bet)
-            continue
-            #----------#
-        #--Add gold when allowed---#
-        elif command == 'add' and bet == 'gold':
-            if gold == 0:
-                write_data('gold', 100)
-                print('Added 100 gold.')
-            else:
-                print('You can only add gold if you ran out of it.')
-        #--------------------------#
-        else:
-            print('Invalid command. Type "h" or "help" for a list of commands')
-            continue
-
-    except ValueError:
-        if command == "gold":
-            print(
-                f"You have {gold:,} ({abbrv(gold)}) gold."
-                if gold > 1000
-                else f"You have {gold} gold."
-            )
-
-        elif command == "q" or command == "Q":
-            break
-
-        elif command == "h" or command == "help":
-            print(list_of_commands())
-
-        #---Zero argument error handling---#
-        elif command in games:
-             print("You need to provide a bet.")
-
-        elif command == "stats":
-            print("You need to provide a game to get stats.")
-
-        elif command == "add":
-            print('Type "add gold" to receive 100 gold if and only if you ran out of gold.')
-        #----------------------------------#
-        else:
-            print('Invalid command. Type "h" or "help" for a list of commands')
-            continue
