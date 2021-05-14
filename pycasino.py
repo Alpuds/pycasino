@@ -118,7 +118,7 @@ def check_abbrv(num):
         else:
             return "invalid"
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
     gold = read_data("gold")
 
 
