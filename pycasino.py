@@ -99,7 +99,7 @@ def expand(num):
     """Expands the abbreviation of a number (e.g. 1.5K -> 1,500)"""
     abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
     # Stores the letter that is at the end of the number to match the key and be the multiplyer
-    abbrv_letter = num[len(num) - 1]
+    abbrv_letter = num[- 1]
     num = float(num.strip(abbrv_letter))
     # This will ensure the letter is capitalised to match the key
     abbrv_letter = abbrv_letter.upper()
@@ -111,7 +111,7 @@ def check_abbrv(num):
         int(num)
         return False
     except ValueError:
-        letter = num[len(num) - 1].upper()
+        letter = num[- 1].upper()
         abbrv = ("T", "B", "M", "K")
         if letter in abbrv:
             return True
