@@ -29,7 +29,7 @@ def list_of_commands():
 
 def print_all_stats(game):
     """Prints out all of the stats for the chosen game"""
-    get_value = lambda field: read_data('game', game, field)
+    get_value = lambda field: read_data("game", game, field)
     print(f"Stats for {game}:")
     print(f"Wins: {get_value('wins'):,}")
     print(f"Losses: {get_value('losses'):,}")
@@ -57,8 +57,16 @@ def write_data(field, write, game=0, stat=0):
     """
     Writes data to the data.csv. It can update gold or a game's specific statistic (e.g. wins).
     """
-    with open('data.csv', 'r') as csv_file, open('updated_data.csv', 'w') as f:
-        field_names = ('gold', 'game', 'wins', 'losses', 'total gold gained', 'total gold lost', 'gold net value')
+    with open("data.csv", "r") as csv_file, open("updated_data.csv", "w") as f:
+        field_names = (
+            "gold",
+            "game",
+            "wins",
+            "losses",
+            "total gold gained",
+            "total gold lost",
+            "gold net value",
+        )
 
         csv_writer = csv.DictWriter(f, fieldnames=field_names)
         csv_reader = csv.DictReader(csv_file)
@@ -70,15 +78,23 @@ def write_data(field, write, game=0, stat=0):
                 if line[field] == game:
                     line[stat] = write
             # Relies on "gold" being the first field name
-            elif line[field] != write and line[field] != 'x':
+            elif line[field] != write and line[field] != "x":
                 line[field] = write
             else:
-                line[field] = 'x'
+                line[field] = "x"
             # Updates data
-            row = {'gold': line['gold'], 'game': line['game'], 'wins': line['wins'], 'losses': line['losses'],'total gold gained': line['total gold gained'], 'total gold lost': line['total gold lost'], 'gold net value': line['gold net value'] }
+            row = {
+                "gold": line["gold"],
+                "game": line["game"],
+                "wins": line["wins"],
+                "losses": line["losses"],
+                "total gold gained": line["total gold gained"],
+                "total gold lost": line["total gold lost"],
+                "gold net value": line["gold net value"],
+            }
             csv_writer.writerow(row)
 
-        os.rename('updated_data.csv', 'data.csv')
+        os.rename("updated_data.csv", "data.csv")
 
 
 def abbrv(num):
@@ -99,7 +115,7 @@ def expand(num):
     """Expands the abbreviation of a number (e.g. 1.5K -> 1,500)"""
     abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
     # Stores the letter that is at the end of the number to match the key and be the multiplyer
-    abbrv_letter = num[- 1]
+    abbrv_letter = num[-1]
     num = float(num.strip(abbrv_letter))
     # This will ensure the letter is capitalised to match the key
     abbrv_letter = abbrv_letter.upper()
@@ -111,22 +127,22 @@ def check_abbrv(num):
         int(num)
         return False
     except ValueError:
-        letter = num[- 1].upper()
+        letter = num[-1].upper()
         abbrv = ("T", "B", "M", "K")
         if letter in abbrv:
             return True
         else:
             return "invalid"
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     gold = read_data("gold")
-
-
+    
     while True:
         try:
             command = input("Command: ")
             command, bet = command.split()
-            #---Stats----#
+            # ---Stats----#
             if command == "stats":
                 if bet in games:
                     if bet == "bj":
@@ -136,35 +152,38 @@ if __name__ == '__main__':
                     print(
                         f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
                     )
-            #------------#
+            # ------------#
             elif command in games:
-                #---Checks the integrity of the bet and expands it when needed---#
+                # ---Checks the integrity of the bet and expands it when needed---#
                 if check_abbrv(bet) == True:
                     bet = expand(bet)
                 elif check_abbrv(bet) == "invalid":
-                    print("Pycasino only handles numbers that are under one quadrillion")
+                    print(
+                        "Pycasino only handles numbers that are under one quadrillion"
+                    )
                     continue
                 else:
                     bet = int(bet)
-                #----------------------------------------------------------------#
                 if bet > gold:
                     print(f"You don't have enough gold ({abbrv(gold)}) [{gold:,}].")
                     continue
                 elif bet <= 0:
-                    print('You have to bet an amount greater than 0.')
+                    print("You have to bet an amount greater than 0.")
                     continue
-                #---Game---#
+                # ----------------------------------------------------------------#
+                # ---Game---#
                 games[command](bet)
                 continue
-                #----------#
-            #--Add gold when allowed---#
-            elif command == 'add' and bet == 'gold':
+                # ----------#
+            # --Add gold when allowed---#
+            elif command == "add" and bet == "gold":
                 if gold == 0:
-                    write_data('gold', 100)
-                    print('Added 100 gold.')
+                    write_data("gold", 100)
+                    gold = read_data("gold")
+                    print("Added 100 gold.")
                 else:
-                    print('You can only add gold if you ran out of it.')
-            #--------------------------#
+                    print("You can only add gold if you ran out of it.")
+            # --------------------------#
             else:
                 print('Invalid command. Type "h" or "help" for a list of commands')
                 continue
@@ -183,16 +202,18 @@ if __name__ == '__main__':
             elif command == "h" or command == "help":
                 print(list_of_commands())
 
-            #---Zero argument error handling---#
+            # ---Zero argument error handling---#
             elif command in games:
-                 print("You need to provide a bet.")
+                print("You need to provide a bet.")
 
             elif command == "stats":
                 print("You need to provide a game to get stats.")
 
             elif command == "add":
-                print('Type "add gold" to receive 100 gold if and only if you ran out of gold.')
-            #----------------------------------#
+                print(
+                    'Type "add gold" to receive 100 gold if and only if you ran out of gold.'
+                )
+            # ----------------------------------#
             else:
                 print('Invalid command. Type "h" or "help" for a list of commands')
                 continue
