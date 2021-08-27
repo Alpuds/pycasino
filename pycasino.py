@@ -150,6 +150,9 @@ if __name__ == '__main__':
                 if bet > gold:
                     print(f"You don't have enough gold. [{gold:,}] ({abbrv(gold)})")
                     continue
+                elif bet <= 0:
+                    print('You have to bet an amount greater than 0.')
+                    continue
                 #---Game---#
                 games[command](bet)
                 continue
