@@ -148,7 +148,7 @@ if __name__ == '__main__':
                     bet = int(bet)
                 #----------------------------------------------------------------#
                 if bet > gold:
-                    print(f"You don't have enough gold. [{gold:,}] ({abbrv(gold)})")
+                    print(f"You don't have enough gold ({abbrv(gold)}) [{gold:,}].")
                     continue
                 elif bet <= 0:
                     print('You have to bet an amount greater than 0.')
