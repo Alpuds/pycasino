@@ -123,6 +123,9 @@ def expand(num):
 
 
 def check_abbrv(num):
+    """
+    Checks to see if the number is abbreviated. Returns True if the number is abbreviated and False if it is not.
+    """
     try:
         int(num)
         return False
@@ -137,7 +140,7 @@ def check_abbrv(num):
 
 if __name__ == "__main__":
     gold = read_data("gold")
-    
+
     while True:
         try:
             command = input("Command: ")
@@ -159,7 +162,7 @@ if __name__ == "__main__":
                     bet = expand(bet)
                 elif check_abbrv(bet) == "invalid":
                     print(
-                        "Pycasino only handles numbers that are under one quadrillion"
+                        f"{bet} is invalid. Pycasino only handles numbers that are under one quadrillion"
                     )
                     continue
                 else:
