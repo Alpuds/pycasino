@@ -153,7 +153,7 @@ if __name__ == "__main__":
                     print_all_stats(bet)
                 else:
                     print(
-                        f'{bet.capitalize()} is not a game available. Type "h" or "help" to see a list of commands'
+                        f'The game "{bet}" is not available. Type "h" or "help" to see a list of commands'
                     )
             # ------------#
             elif command in games:
