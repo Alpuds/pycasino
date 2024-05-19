@@ -1,0 +1,2 @@
+List of commands
+bj [bet] - Play blackjack with the amount of gold to bet as the [bet]. The bet can be shorten using k for thousand and so on (e.g. 1.5k for 1,500).

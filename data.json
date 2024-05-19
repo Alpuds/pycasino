@@ -1,0 +1,31 @@
+{
+    "gold": 39200,
+    "blackjack": {
+        "wins": 15,
+        "losses": 10,
+        "total gold won": 15000,
+        "total gold lost": 10000,
+        "gold net amount": 5000
+    },
+    "slots": {
+        "wins": 25,
+        "losses": 20,
+        "total gold won": 50,
+        "total gold lost": 20,
+        "gold net amount": 30
+    },
+    "roulette": {
+        "wins": 35,
+        "losses": 30,
+        "total gold won": 450,
+        "total gold lost": 100,
+        "gold net amount": 350
+    },
+    "craps": {
+        "wins": 45,
+        "losses": 40,
+        "total gold won": 550,
+        "total gold lost": 30,
+        "gold net amount": 520
+    }
+}
