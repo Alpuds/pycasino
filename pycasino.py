@@ -57,7 +57,11 @@ while True:
             else:
                 bet = int(bet)
             if bet > gold:
-                print(f"You don't have enough gold ({utils.abbrv(gold)}) [{gold:,}].")
+                print(
+                    f"You don't have enough gold. You have {gold:,} ({utils.abbrv(gold)}) gold."
+                    if gold > 1000
+                    else f"You don't have enough gold. You have {gold} gold."
+                )
                 continue
             elif bet <= 0:
                 print("You have to bet an amount greater than 0.")
