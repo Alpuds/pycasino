@@ -6,7 +6,7 @@ def list_of_commands():
         return f.read()
 
 
-def print_all_stats(game):
+def print_all_stats(game: str):
     """Prints out all of the stats for the chosen game"""
     get_value = lambda stats: read_data(game, stats)
     print(f"Stats for {game}:")
@@ -17,7 +17,7 @@ def print_all_stats(game):
     print(f"Gold net amount: {get_value('gold net amount'):,}")
 
 
-def read_data(top_layer, stats=0):
+def read_data(top_layer: str, stats: str = "") -> int:
     """
     Reads data.json and returns the number of gold or statistic of a game.
     top_layer refers to the key that is at the top of the hierarchy (e.g., gold, blackjack).
@@ -26,14 +26,14 @@ def read_data(top_layer, stats=0):
     with open("data.json", "r") as file:
         data = json.load(file)
 
-    if stats == 0:  # If this is true, then it will read the value of gold (top_layer).
+    if stats == "":  # If this is true, then it will read the value of gold (top_layer).
         return data[top_layer]
     else:
         # Read the value of stats for a game (which top_layer represents).
         return data[top_layer][stats]
 
 
-def write_data(top_layer, stats, value=0):
+def write_data(top_layer: str, stats: int | str, value: int = 0):
     """
     Writes data to data.json. It can update gold or a game's specific statistic (e.g., wins).
 
@@ -56,7 +56,7 @@ def write_data(top_layer, stats, value=0):
         json.dump(data, write_file, indent=4)
 
 
-def abbrv(num):
+def abbrv(num: int) -> str | int:
     """
     Shortens the amount so it will have a letter at the end to indicate the place value of the number (e.g. 1,500 -> 1.5K)
     This goes upto trillion.
@@ -66,20 +66,21 @@ def abbrv(num):
         if num / abbrv_value >= 1:
             shorten_num = str(round((num / abbrv_value), 2)).strip(".0")
             return shorten_num + key
+    return num
 
 
-def expand(num):
+def expand(num: str) -> int:
     """Expands the abbreviation of a number (e.g. 1.5K -> 1,500)"""
     abbrv = {"T": 1_000_000_000_000, "B": 1_000_000_000, "M": 1_000_000, "K": 1000}
     # Stores the letter that is at the end of the number to match the key and be the multiplyer
     abbrv_letter = num[-1]
-    num = float(num.strip(abbrv_letter))
+    float_num = float(num.strip(abbrv_letter))
     # This will ensure the letter is capitalised to match the key
     abbrv_letter = abbrv_letter.upper()
-    return int(num * abbrv[abbrv_letter])
+    return int(float_num * abbrv[abbrv_letter])
 
 
-def check_abbrv(num):
+def check_abbrv(num: str) -> bool | str:
     """
     Checks to see if the number is abbreviated.
     Returns True if the number is abbreviated and False if it is not.
