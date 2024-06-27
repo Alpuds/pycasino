@@ -96,7 +96,7 @@ while True:
             break
 
         elif command == "h" or command == "help":
-            print(utils.list_of_commands())
+            print(utils.help_text())
 
         # ---Zero argument error handling---#
         elif command in games:
